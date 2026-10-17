@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — NextBuy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="announce">NextBuy admin · <b>staff access only</b></div>
+
+<header>
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand" aria-label="NextBuy home">
+      <span class="brand-mark">N</span>
+      <span class="brand-name">Next<span>Buy</span></span>
+    </a>
+    <nav class="main">
+      <a href="index.html#shop">Shop</a>
+      <a href="account.html">Account</a>
+    </nav>
+    <a href="index.html" class="btn btn-ghost" style="height:42px;margin-left:auto" id="backToStore">Back to store</a>
+  </div>
+</header>
+
+<main class="wrap page">
+
+  <!-- Not signed in as admin -->
+  <section id="gate" hidden>
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <h2>Admin sign in</h2>
+        <p class="sub">Manage the catalogue and customer orders.</p>
+        <div class="alert error" id="gateError" hidden></div>
+        <form id="gateForm" novalidate>
+          <div class="field" style="margin-bottom:14px">
+            <label for="gEmail">Email</label>
+            <input id="gEmail" type="email" autocomplete="email" placeholder="admin@nextbuy.in">
+          </div>
+          <div class="field">
+            <label for="gPassword">Password</label>
+            <input id="gPassword" type="password" autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="gSubmit">Sign in</button>
+          </div>
+        </form>
+        <p class="mono" style="text-align:center;color:var(--text-faint);margin-top:16px">Demo admin — admin@nextbuy.in / admin1234</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dash" hidden>
+    <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+      <div>
+        <h1>Dashboard</h1>
+        <p id="adminWho"></p>
+      </div>
+      <button class="btn btn-ghost" id="adminSignOut" type="button">Sign out</button>
+    </div>
+
+    <div class="admin-stats" id="stats"></div>
+
+    <div class="admin-section">
+      <h2>Low stock</h2>
+      <div class="low-stock" id="lowStock"></div>
+    </div>
+
+    <div class="admin-section">
+      <h2>Recent orders</h2>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Order</th><th>Customer</th><th>Placed</th><th>Status</th><th class="num">Total</th></tr></thead>
+          <tbody id="recentBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px">
+        <h2 style="margin:0">Products</h2>
+        <button class="btn-sm primary" id="newProduct" type="button">+ Add product</button>
+      </div>
+
+      <div id="productForm" hidden style="border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:22px;margin-bottom:20px">
+        <h3 id="pfTitle" style="font-family:var(--font-display);font-size:19px;font-weight:600;margin-bottom:16px">Add product</h3>
+        <div class="form-grid">
+          <div class="field full"><label for="pfName">Name</label><input id="pfName" placeholder="Product name"></div>
+          <div class="field"><label for="pfCategory">Category</label><select id="pfCategory"></select></div>
+          <div class="field"><label for="pfImage">Image</label><select id="pfImage"></select></div>
+          <div class="field"><label for="pfPrice">Price (₹)</label><input id="pfPrice" inputmode="numeric" placeholder="2450"></div>
+          <div class="field"><label for="pfCompare">Compare-at price (₹, optional)</label><input id="pfCompare" inputmode="numeric" placeholder="2999"></div>
+          <div class="field"><label for="pfStock">Stock</label><input id="pfStock" inputmode="numeric" placeholder="50"></div>
+          <div class="field"><label for="pfBadge">Badge</label><select id="pfBadge"><option value="">None</option><option>Sale</option><option>New</option><option>Best seller</option></select></div>
+          <div class="field"><label for="pfRating">Rating (0–5)</label><input id="pfRating" inputmode="decimal" placeholder="4.8"></div>
+          <div class="field"><label for="pfReviews">Review count</label><input id="pfReviews" inputmode="numeric" placeholder="120"></div>
+          <div class="field full"><label for="pfDescription">Description</label><textarea id="pfDescription" placeholder="A short line about the product."></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="pfSave" type="button">Save product</button>
+          <button class="btn btn-ghost" id="pfCancel" type="button">Cancel</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Product</th><th>Category</th><th>Badge</th><th class="num">Price</th><th class="num">Stock</th><th></th></tr></thead>
+          <tbody id="productBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>All orders</h2>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Placed</th><th class="num">Total</th><th>Status</th></tr></thead>
+          <tbody id="orderBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:none">
+      <span>© 2026 NextBuy Retail Pvt. Ltd. · Bengaluru, India</span>
+      <span><a href="index.html">Shop</a> · <a href="account.html">Account</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

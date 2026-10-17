@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your account — NextBuy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="announce">Free shipping on orders over <b>₹999</b> · Easy 30-day returns · Use code <b>NEXT10</b> for 10% off</div>
+
+<header>
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand" aria-label="NextBuy home">
+      <span class="brand-mark">N</span>
+      <span class="brand-name">Next<span>Buy</span></span>
+    </a>
+    <nav class="main">
+      <a href="index.html#shop">Shop</a>
+      <a href="index.html#deals">Deals</a>
+      <a href="index.html#story">Our Story</a>
+    </nav>
+    <a href="account.html" class="acct-link" id="acctLink" aria-label="Your account">
+      <span class="av" id="acctAv">?</span>
+      <span class="name" id="acctName">Sign in</span>
+    </a>
+    <a href="index.html" class="icon-btn" aria-label="Back to store" title="Back to store">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap page">
+  <!-- Signed out: auth card -->
+  <section id="authSection" hidden>
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <h2 id="authTitle">Sign in</h2>
+        <p class="sub" id="authSub">Welcome back — pick up where you left off.</p>
+        <div class="alert error" id="authError" hidden></div>
+        <form id="authForm" novalidate>
+          <div class="field" id="nameField" hidden>
+            <label for="auName">Full name</label>
+            <input id="auName" type="text" autocomplete="name" placeholder="Sahil Agarwal">
+          </div>
+          <div class="field" style="margin-bottom:14px">
+            <label for="auEmail">Email</label>
+            <input id="auEmail" type="email" autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label for="auPassword">Password</label>
+            <input id="auPassword" type="password" autocomplete="current-password" placeholder="••••••••">
+            <span class="hint" id="pwHint" hidden>At least 8 characters.</span>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="authSubmit">Sign in</button>
+          </div>
+        </form>
+        <p class="auth-switch" id="authSwitch">
+          New here? <a href="#" id="toRegister">Create an account</a>
+        </p>
+      </div>
+      <p class="mono" style="text-align:center;color:var(--text-faint);margin-top:18px">Demo login — demo@nextbuy.in / demo1234</p>
+    </div>
+  </section>
+
+  <!-- Signed in -->
+  <section id="accountSection" hidden>
+    <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+      <div>
+        <h1 id="helloName">Your account</h1>
+        <p id="helloEmail"></p>
+      </div>
+      <button class="btn btn-ghost" id="signOut" type="button">Sign out</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="orders">Order history</button>
+      <button class="tab" data-tab="addresses">Saved addresses</button>
+    </div>
+
+    <!-- Orders -->
+    <div id="tabOrders">
+      <div id="ordersBody"></div>
+    </div>
+
+    <!-- Addresses -->
+    <div id="tabAddresses" hidden>
+      <div class="form-grid" style="max-width:720px;margin-bottom:28px">
+        <div class="field full"><label for="adLabel">Label (optional)</label><input id="adLabel" placeholder="Home / Work"></div>
+        <div class="field"><label for="adName">Full name</label><input id="adName" placeholder="Sahil Agarwal"></div>
+        <div class="field"><label for="adPhone">Mobile</label><input id="adPhone" placeholder="98765 43210"></div>
+        <div class="field full"><label for="adLine1">Address</label><input id="adLine1" placeholder="Flat / house no., building, street"></div>
+        <div class="field"><label for="adCity">City</label><input id="adCity" placeholder="Bengaluru"></div>
+        <div class="field"><label for="adState">State</label><input id="adState" placeholder="Karnataka"></div>
+        <div class="field"><label for="adPin">PIN code</label><input id="adPin" inputmode="numeric" placeholder="560001"></div>
+        <div class="field" style="justify-content:flex-end"><button class="btn btn-primary" id="addAddr" type="button" style="justify-content:center">Save address</button></div>
+      </div>
+      <div class="addr-list" id="addrList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:none">
+      <span>© 2026 NextBuy Retail Pvt. Ltd. · Bengaluru, India</span>
+      <span><a href="index.html">Shop</a> · <a href="account.html">Account</a> · <a href="admin.html">Admin</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script src="js/api.js"></script>
+<script src="js/account.js"></script>
+</body>
+</html>
